@@ -3,9 +3,9 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-find_package(Vulkan REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
+find_package(Vulkan REQUIRED)
 
 project("firstproject_imgui")
 

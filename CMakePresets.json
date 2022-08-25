@@ -5,7 +5,8 @@
       "name": "Base",
       "hidden": true,
       "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/Build/${presetName}"
+      "binaryDir": "${sourceDir}/out/Build/${presetName}",
+      "installDir": "${sourceDir}/out/Install/${presetName}"
     },
     {
       "name": "Clang",
@@ -31,8 +32,6 @@
     {
       "name": "MSVC",
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
