@@ -147,7 +147,7 @@ jobs:
           buildPreset: '${{matrix.compiler}} ${{matrix.build_config}}'
 
 
-  windows:
+  mac:
     name: macOS
     runs-on: macos-latest
     strategy:
