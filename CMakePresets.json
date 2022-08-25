@@ -5,6 +5,7 @@
       "name": "Base",
       "hidden": true,
       "generator": "Ninja Multi-Config",
+      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "binaryDir": "${sourceDir}/out/Build/${presetName}",
       "installDir": "${sourceDir}/out/Install/${presetName}"
     },
@@ -31,7 +32,6 @@
     },
     {
       "name": "MSVC",
-      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
