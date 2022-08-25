@@ -90,56 +90,5 @@
       "inherits": "Release",
       "configurePreset": "MSVC"
     }
-  ],
-  "testPresets": [
-    {
-      "name": "Base",
-      "hidden": true,
-      "output": {
-        "verbosity": "verbose"
-      }
-    },
-    {
-      "name": "Debug",
-      "hidden": true,
-      "inherits": "Base",
-      "configuration": "Debug"
-    },
-    {
-      "name": "Release",
-      "hidden": true,
-      "inherits": "Base",
-      "configuration": "Release"
-    },
-    {
-      "name": "Clang Debug",
-      "inherits": "Debug",
-      "configurePreset": "Clang"
-    },
-    {
-      "name": "Clang Release",
-      "inherits": "Release",
-      "configurePreset": "Clang"
-    },
-    {
-      "name": "GCC Debug",
-      "inherits": "Debug",
-      "configurePreset": "GCC"
-    },
-    {
-      "name": "GCC Release",
-      "inherits": "Release",
-      "configurePreset": "GCC"
-    },
-    {
-      "name": "MSVC Debug",
-      "inherits": "Debug",
-      "configurePreset": "MSVC"
-    },
-    {
-      "name": "MSVC Release",
-      "inherits": "Release",
-      "configurePreset": "MSVC"
-    }
   ]
 }
