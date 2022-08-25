@@ -1,103 +1,267 @@
-﻿{
+﻿//{
+//  "version": 3,
+//  "configurePresets": [
+//    {
+//      "name": "windows-base",
+//      "hidden": true,
+//      "generator": "Ninja",
+//      "binaryDir": "${sourceDir}/out/build/${presetName}",
+//      "installDir": "${sourceDir}/out/install/${presetName}",
+//      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+//      "cacheVariables": {
+//        "CMAKE_C_COMPILER": "cl.exe",
+//        "CMAKE_CXX_COMPILER": "cl.exe"
+//      },
+//      "condition": {
+//        "type": "equals",
+//        "lhs": "${hostSystemName}",
+//        "rhs": "Windows"
+//      }
+//    },
+//    {
+//      "name": "x64-debug",
+//      "displayName": "x64 Debug",
+//      "inherits": "windows-base",
+//      "architecture": {
+//        "value": "x64",
+//        "strategy": "external"
+//      },
+//      "cacheVariables": {
+//        "CMAKE_BUILD_TYPE": "Debug"
+//      }
+//    },
+//    {
+//      "name": "x64-release",
+//      "displayName": "x64 Release",
+//      "inherits": "x64-debug",
+//      "cacheVariables": {
+//        "CMAKE_BUILD_TYPE": "Release"
+//      }
+//    },
+//    {
+//      "name": "linux-debug",
+//      "displayName": "Linux Debug",
+//      "generator": "Ninja",
+//      "binaryDir": "${sourceDir}/out/build/${presetName}",
+//      "installDir": "${sourceDir}/out/install/${presetName}",
+//      "cacheVariables": {
+//        "CMAKE_BUILD_TYPE": "Debug"
+//      },
+//      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+//      "condition": {
+//        "type": "equals",
+//        "lhs": "${hostSystemName}",
+//        "rhs": "Linux"
+//      },
+//      "vendor": {
+//        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+//          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+//        }
+//      }
+//    },
+//    {
+//      "name": "macos-debug",
+//      "displayName": "macOS Debug",
+//      "generator": "Ninja",
+//      "binaryDir": "${sourceDir}/out/build/${presetName}",
+//      "installDir": "${sourceDir}/out/install/${presetName}",
+//      "cacheVariables": {
+//        "CMAKE_BUILD_TYPE": "Debug"
+//      },
+//      "condition": {
+//        "type": "equals",
+//        "lhs": "${hostSystemName}",
+//        "rhs": "Darwin"
+//      },
+//      "vendor": {
+//        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+//          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+//        }
+//      }
+//    }
+//  ],
+//  "buildPresets": [
+//    {
+//      "name": "Base",
+//      "hidden": true,
+//      "verbose": true,
+//    },
+//    {
+//      "name": "Debug",
+//      "hidden": true,
+//      "inherits": "Base",
+//      "configuration": "Debug"
+//    },
+//    {
+//      "name": "Release",
+//      "hidden": true,
+//      "inherits": "Base",
+//      "configuration": "Release"
+//    },
+//    {
+//      "name": "Clang Debug",
+//      "inherits": "Debug",
+//      "configurePreset": "Clang"
+//    },
+//    {
+//      "name": "Clang Release",
+//      "inherits": "Release",
+//      "configurePreset": "Clang"
+//    },
+//    {
+//      "name": "MSVC Debug",
+//      "inherits": "Debug",
+//      "configurePreset": "x64-debug"
+//    },
+//    {
+//      "name": "MSVC Release",
+//      "inherits": "Release",
+//      "configurePreset": "x64-release"
+//    }
+//  ]
+//}
+{
   "version": 3,
   "configurePresets": [
     {
-      "name": "windows-base",
+      "name": "Base",
       "hidden": true,
-      "generator": "Ninja",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/Build/${presetName}"
+    },
+    {
+      "name": "Clang",
+      "inherits": "Base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang$env{clang_compiler_version}",
+        "CMAKE_CXX_COMPILER": "clang++$env{clang_compiler_version}"
+      }
+    },
+    {
+      "name": "GCC",
+      "condition": {
+        "type": "notEquals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "inherits": "Base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc$env{gcc_compiler_version}",
+        "CMAKE_CXX_COMPILER": "g++$env{gcc_compiler_version}"
+      }
+    },
+    {
+      "name": "MSVC",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
-      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
-      },
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
+      },
+      "inherits": "Base",
+      "generator": "Visual Studio 17 2022"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "Base",
+      "hidden": true,
+      "verbose": true
+    },
+    {
+      "name": "Debug",
+      "hidden": true,
+      "inherits": "Base",
+      "configuration": "Debug"
+    },
+    {
+      "name": "Release",
+      "hidden": true,
+      "inherits": "Base",
+      "configuration": "Release"
+    },
+    {
+      "name": "Clang Debug",
+      "inherits": "Debug",
+      "configurePreset": "Clang"
+    },
+    {
+      "name": "Clang Release",
+      "inherits": "Release",
+      "configurePreset": "Clang"
+    },
+    {
+      "name": "GCC Debug",
+      "inherits": "Debug",
+      "configurePreset": "GCC"
+    },
+    {
+      "name": "GCC Release",
+      "inherits": "Release",
+      "configurePreset": "GCC"
+    },
+    {
+      "name": "MSVC Debug",
+      "inherits": "Debug",
+      "configurePreset": "MSVC"
+    },
+    {
+      "name": "MSVC Release",
+      "inherits": "Release",
+      "configurePreset": "MSVC"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "Base",
+      "hidden": true,
+      "output": {
+        "verbosity": "verbose"
       }
     },
     {
-      "name": "x64-debug",
-      "displayName": "x64 Debug",
-      "inherits": "windows-base",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "name": "Debug",
+      "hidden": true,
+      "inherits": "Base",
+      "configuration": "Debug"
     },
     {
-      "name": "x64-release",
-      "displayName": "x64 Release",
-      "inherits": "x64-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+      "name": "Release",
+      "hidden": true,
+      "inherits": "Base",
+      "configuration": "Release"
     },
     {
-      "name": "x86-debug",
-      "displayName": "x86 Debug",
-      "inherits": "windows-base",
-      "architecture": {
-        "value": "x86",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "name": "Clang Debug",
+      "inherits": "Debug",
+      "configurePreset": "Clang"
     },
     {
-      "name": "x86-release",
-      "displayName": "x86 Release",
-      "inherits": "x86-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+      "name": "Clang Release",
+      "inherits": "Release",
+      "configurePreset": "Clang"
     },
     {
-      "name": "linux-debug",
-      "displayName": "Linux Debug",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
-        }
-      }
+      "name": "GCC Debug",
+      "inherits": "Debug",
+      "configurePreset": "GCC"
     },
     {
-      "name": "macos-debug",
-      "displayName": "macOS Debug",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Darwin"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
-        }
-      }
+      "name": "GCC Release",
+      "inherits": "Release",
+      "configurePreset": "GCC"
+    },
+    {
+      "name": "MSVC Debug",
+      "inherits": "Debug",
+      "configurePreset": "MSVC"
+    },
+    {
+      "name": "MSVC Release",
+      "inherits": "Release",
+      "configurePreset": "MSVC"
     }
   ]
 }
