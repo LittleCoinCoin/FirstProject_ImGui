@@ -17,12 +17,12 @@ jobs:
 
     steps:
       - name: Checkout Project
-        uses: actions/checout@v3
+        uses: actions/checkout@v3
         with:
           submodules: "recursive"
       
       - name: Checkout vcpkg
-        uses: actions/checout@v3
+        uses: actions/checkout@v3
         with:
           repository: "microsoft/vcpkg"
           path: vcpkg
