@@ -88,6 +88,10 @@ jobs:
         with:
           submodules: "recursive"
       
+      - name: Get latest CMake and ninja
+        # Using 'latest' branch, the most recent CMake and ninja are installed.
+        uses: lukka/get-cmake@latest
+
       - name: Prepare glfw Linux dependencies
         uses: RpxdYTX/install-glfw-deps@v2
 
